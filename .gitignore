@@ -4,3 +4,10 @@ bigdata/
 data/flight_data_2024.csv
 
 .vscode/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+analysis-output/
+demo-output/
