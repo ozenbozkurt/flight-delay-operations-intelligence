@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "flight-delay-operations-intelligence"
+version = "0.1.0"
+description = "Reproducible departure-delay metrics and route rankings from flight CSV data"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["pandas>=2.0,<4"]
+
+[project.optional-dependencies]
+charts = ["matplotlib>=3.7,<4"]
+
+[project.scripts]
+flight-delay = "flight_delay.cli:main"
+
+[project.urls]
+Repository = "https://github.com/ozenbozkurt/flight-delay-operations-intelligence"
+Issues = "https://github.com/ozenbozkurt/flight-delay-operations-intelligence/issues"
+
+[tool.setuptools.packages.find]
+include = ["flight_delay*"]

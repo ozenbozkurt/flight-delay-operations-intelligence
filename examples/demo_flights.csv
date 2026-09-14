@@ -1,0 +1,9 @@
+fl_date,dep_delay,origin,dest,op_unique_carrier,cancelled,carrier_delay,weather_delay,nas_delay,security_delay,late_aircraft_delay
+2024-01-01,-5,AAA,BBB,DEMO,0,0,0,0,0,0
+2024-01-02,0,AAA,BBB,DEMO,0,0,0,0,0,0
+2024-01-03,15,AAA,BBB,DEMO,0,5,0,10,0,0
+2024-01-04,30,AAA,BBB,DEMO,0,10,5,0,0,15
+2024-02-01,45,CCC,BBB,TEST,0,10,0,5,0,30
+2024-02-02,10,CCC,BBB,TEST,0,0,0,0,0,0
+2024-02-03,20,CCC,BBB,TEST,0,5,10,5,0,0
+2024-02-04,,CCC,BBB,TEST,1,,,,,
