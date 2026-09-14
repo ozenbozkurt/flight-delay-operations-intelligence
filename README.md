@@ -150,7 +150,11 @@ scripts; previously published numbers have not been regenerated or replaced.
 
 ## Release status
 
-Version 0.1.0 is a local development package. Before a public open-source
-release, the maintainer needs to select a software license and document the
-upstream source and redistribution terms of the existing `data/` CSV files.
+The source code, synthetic examples, and repository documentation are licensed
+under the [MIT License](LICENSE). Version 0.1.0 is a local development package;
+it has not been published to PyPI.
+
+The existing historical `data/` CSV files are not covered by the MIT License.
+Their original retrieval record is unavailable, so use the official BTS source
+for new work and see [DATA_SOURCES.md](DATA_SOURCES.md) for the reuse boundary.
 Those historical datasets are excluded from the wheel and source distribution.

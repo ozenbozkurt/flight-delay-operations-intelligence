@@ -34,7 +34,7 @@ errors to hide. Keep the strictly-greater-than threshold convention explicit.
 
 ## Licensing status
 
-The repository did not include a license at the starting revision. A software
-license and the existing data samples' provenance must be settled by the
-maintainer before accepting contributions intended for an open-source release.
-Public visibility alone does not grant redistribution rights.
+Code, synthetic examples, and repository documentation are available under the
+[MIT License](LICENSE). See [DATA_SOURCES.md](DATA_SOURCES.md) for the separate
+status of the historical data files. Public visibility alone does not grant
+redistribution rights for third-party data.
