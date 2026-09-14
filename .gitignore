@@ -9,5 +9,6 @@ __pycache__/
 *.egg-info/
 build/
 dist/
+dist-*/
 analysis-output/
 demo-output/
