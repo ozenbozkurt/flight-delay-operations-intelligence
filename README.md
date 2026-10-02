@@ -10,6 +10,8 @@ hard-coded paths or downloading a large dataset.
 
 ## Quickstart
 
+[Türkçe hızlı başlangıç](docs/quickstart-tr.md)
+
 Requires Python 3.10 or newer. From a local clone:
 
 ```sh
