@@ -33,6 +33,16 @@ class CliTests(unittest.TestCase):
         self.assertEqual(summary["analyzed_rows"], 7)
         self.assertEqual((self.output / "top_risky_routes.csv").read_text().count("\n"), 1)
 
+    def test_bts_uppercase_csv_runs_without_renaming(self):
+        fixture = Path(self.temp.name) / "bts.csv"
+        lines = DEMO.read_text().splitlines()
+        fixture.write_text(lines[0].upper() + "\n" + "\n".join(lines[1:]) + "\n")
+        code, stdout, stderr = self.run_cli("--input", str(fixture))
+        self.assertEqual(code, 0, stderr)
+        self.assertIn("Analyzed 7 of 8", stdout)
+        summary = json.loads((self.output / "summary.json").read_text())
+        self.assertEqual(summary["cancelled_rows_excluded"], 1)
+
     def test_existing_outputs_are_preserved(self):
         self.output.mkdir()
         sentinel = self.output / "important.txt"
