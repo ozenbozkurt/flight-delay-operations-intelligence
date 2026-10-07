@@ -1,12 +1,27 @@
 # Flight Delay Operations Intelligence
 
-Turn a flight CSV into departure-delay metrics, airport/carrier rankings,
-route risk tables, and optional charts. Run the included synthetic demo first,
-then analyze your own data on Windows, macOS, or Linux.
+[![Tests](https://github.com/ozenbozkurt/flight-delay-operations-intelligence/actions/workflows/tests.yml/badge.svg)](https://github.com/ozenbozkurt/flight-delay-operations-intelligence/actions/workflows/tests.yml)
+[![Release](https://img.shields.io/github/v/release/ozenbozkurt/flight-delay-operations-intelligence)](https://github.com/ozenbozkurt/flight-delay-operations-intelligence/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)
 
-This repository started as a U.S. 2024 aviation analytics case study. The new
-`flight_delay` Python package makes the analysis reusable without editing
-hard-coded paths or downloading a large dataset.
+A reproducible Python toolkit for turning flight CSV data into operational delay
+metrics, airport/carrier rankings, route-risk tables, and optional charts.
+
+The project started as a U.S. 2024 aviation analytics case study and now includes
+a reusable `flight_delay` Python package, command-line interface, regression
+tests, CI on Windows/Linux, and contributor-facing documentation.
+
+## Highlights
+
+- Analyze local flight CSVs without editing source code.
+- Accept canonical lower-case fields and documented official BTS upper-case aliases.
+- Produce summary metrics, route risk, airport/carrier rankings, and delay-reason coverage.
+- Use the same analysis from the CLI or the reusable Python API.
+- Run regression tests automatically on Windows/Linux with Python 3.10 and 3.12.
+- Track maintained releases in [CHANGELOG.md](CHANGELOG.md) and current priorities in [ROADMAP.md](ROADMAP.md).
+
+> **Project status:** maintained. The v0.2.0 milestone focuses on reliable large-file analysis while preserving existing behavior.
 
 ## Quickstart
 
