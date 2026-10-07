@@ -7,6 +7,7 @@ import pandas as pd
 
 REQUIRED = ("fl_date", "dep_delay", "origin", "dest", "op_unique_carrier")
 REASONS = ("carrier_delay", "weather_delay", "nas_delay", "security_delay", "late_aircraft_delay")
+BTS_COLUMNS = {name.upper(): name for name in (*REQUIRED, *REASONS, "cancelled")}
 
 
 @dataclass
@@ -28,13 +29,19 @@ def analyze(data: pd.DataFrame, *, min_flights: int = 500,
             raise ValueError(f"{name} must be a positive integer")
     if not math.isfinite(late_threshold) or late_threshold < 0:
         raise ValueError("late_threshold must be finite and non-negative")
-    missing = sorted(set(REQUIRED) - set(data.columns))
-    if missing:
-        raise ValueError("Missing required columns: " + ", ".join(missing))
     if not data.columns.is_unique:
         raise ValueError("Duplicate column names are not supported")
+    ambiguous = sorted(alias for alias, name in BTS_COLUMNS.items()
+                       if alias in data.columns and name in data.columns)
+    if ambiguous:
+        raise ValueError("Ambiguous column names: " + ", ".join(
+            f"{alias} and {BTS_COLUMNS[alias]}" for alias in ambiguous))
 
-    frame = data.copy(deep=True)
+    frame = data.rename(columns=BTS_COLUMNS).copy(deep=True)
+    missing = sorted(set(REQUIRED) - set(frame.columns))
+    if missing:
+        raise ValueError("Missing required columns: " + ", ".join(missing))
+
     frame["fl_date"] = pd.to_datetime(frame["fl_date"], errors="coerce", format="mixed", utc=True)
     frame["dep_delay"] = pd.to_numeric(frame["dep_delay"], errors="coerce")
     frame.loc[~frame["dep_delay"].map(lambda v: pd.notna(v) and math.isfinite(v)), "dep_delay"] = float("nan")

@@ -78,6 +78,10 @@ Each row represents one flight. Required columns:
 
 Optional fields: `cancelled` (`1` means cancelled), `carrier_delay`,
 `weather_delay`, `nas_delay`, `security_delay`, `late_aircraft_delay`.
+The uppercase BTS export names for these required and optional fields are
+also accepted, for example `FL_DATE`, `OP_UNIQUE_CARRIER`, and `CANCELLED`.
+Uppercase and lowercase fields may be mixed, but supplying both names for
+the same field (such as `FL_DATE` and `fl_date`) fails with an ambiguity error.
 All other columns are ignored. Weekday is derived from the date. Dates with
  timezone offsets are normalized to UTC; use date-only values for local flight dates.
 

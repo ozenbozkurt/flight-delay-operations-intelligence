@@ -80,6 +80,28 @@ class AnalysisTests(unittest.TestCase):
         analyze(self.data)
         pd.testing.assert_frame_equal(before, self.data)
 
+    def test_bts_uppercase_columns_match_canonical_results(self):
+        upper = self.data.rename(columns=str.upper)
+        before = upper.copy(deep=True)
+        expected = analyze(self.data, min_flights=1, min_route_flights=1)
+        actual = analyze(upper, min_flights=1, min_route_flights=1)
+        self.assertEqual(actual.summary, expected.summary)
+        for name in expected.tables:
+            pd.testing.assert_frame_equal(actual.tables[name], expected.tables[name])
+        pd.testing.assert_frame_equal(actual.departures, expected.departures)
+        pd.testing.assert_frame_equal(upper, before)
+
+    def test_mixed_supported_column_names_are_accepted(self):
+        mixed = self.data.rename(columns={"fl_date": "FL_DATE", "cancelled": "CANCELLED"})
+        self.assertEqual(analyze(mixed).summary, analyze(self.data).summary)
+
+    def test_ambiguous_canonical_and_bts_columns_are_rejected(self):
+        for column in ("fl_date", "cancelled", "weather_delay"):
+            with self.subTest(column=column):
+                data = self.data.assign(**{column.upper(): self.data[column]})
+                with self.assertRaisesRegex(ValueError, "Ambiguous column names"):
+                    analyze(data)
+
     def test_missing_required_columns_produce_clear_error(self):
         with self.assertRaisesRegex(ValueError, "Missing required columns: dest"):
             analyze(self.data.drop(columns="dest"))
