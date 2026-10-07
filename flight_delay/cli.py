@@ -20,6 +20,7 @@ def parser() -> argparse.ArgumentParser:
     p.add_argument("--min-route-flights", type=int, default=300, help="Minimum rows per route (default: 300)")
     p.add_argument("--late-threshold", type=float, default=15, help="Late means delay strictly greater than this number (default: 15)")
     p.add_argument("--charts", action="store_true", help="Also generate PNG charts; requires the charts extra")
+    p.add_argument("--chunksize", type=int, default=None, help="Read CSV incrementally using chunks of this many rows")
     return p
 
 
@@ -66,9 +67,28 @@ def main(argv=None) -> int:
                 import matplotlib  # noqa: F401
             except ImportError as exc:
                 raise ValueError('Charts require installation with: python -m pip install ".[charts]"') from exc
-        data = pd.read_csv(args.input, dtype=str, keep_default_na=False)
-        result = analyze(data, min_flights=args.min_flights, min_route_flights=args.min_route_flights,
-                         late_threshold=args.late_threshold)
+        if args.chunksize is not None:
+            if args.chunksize < 1:
+                raise ValueError("chunksize must be a positive integer")
+            if args.charts:
+                raise ValueError("Charts are not supported with --chunksize")
+            from .streaming import analyze_csv
+            result = analyze_csv(
+                args.input,
+                chunksize=args.chunksize,
+                min_flights=args.min_flights,
+                min_route_flights=args.min_route_flights,
+                late_threshold=args.late_threshold,
+            )
+        else:
+            data = pd.read_csv(args.input, dtype=str, keep_default_na=False)
+            result = analyze(
+                data,
+                min_flights=args.min_flights,
+                min_route_flights=args.min_route_flights,
+                late_threshold=args.late_threshold,
+            )
+
         result.summary["input_file"] = str(args.input)
         result.summary["tool_version"] = __version__
         args.output.mkdir(parents=True, exist_ok=True)
@@ -77,7 +97,7 @@ def main(argv=None) -> int:
         (args.output / "summary.json").write_text(json.dumps(result.summary, indent=2, allow_nan=False) + "\n", encoding="utf-8")
         if args.charts:
             write_charts(result, args.output)
-        print(f"Analyzed {result.summary['analyzed_rows']} of {len(data)} rows. Output: {args.output}")
+        print(f"Analyzed {result.summary['analyzed_rows']} of {result.summary['input_rows']} rows. Output: {args.output}")
         for warning in result.summary["warnings"]:
             print(f"Warning: {warning}", file=sys.stderr)
         return 0
