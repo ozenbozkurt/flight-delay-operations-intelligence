@@ -142,7 +142,8 @@ python -m unittest discover -s tests -v
 The test suite covers known metrics, threshold boundaries, cancellations,
 missing/invalid data, small groups, CLI output protection, and optional charts.
 GitHub Actions is configured to run tests on Windows/Linux and Python 3.10/3.12.
-See [CONTRIBUTING.md](CONTRIBUTING.md) before proposing a change.\nCurrent priorities are tracked in [ROADMAP.md](ROADMAP.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md) before proposing a change.
+Current priorities are tracked in [ROADMAP.md](ROADMAP.md).
 
 ## Historical case study
 
